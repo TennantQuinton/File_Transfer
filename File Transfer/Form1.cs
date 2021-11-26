@@ -11,6 +11,8 @@ using Microsoft.VisualBasic.FileIO;
 
 namespace File_Transfer
 {
+    // TODO: If cancel file transfer early then save what was leftover to start later
+    // TODO: Make it easier to read the file lists (Search bar?)
     public partial class Form1 : Form
     {
         List<string> file_list = new List<string>();
