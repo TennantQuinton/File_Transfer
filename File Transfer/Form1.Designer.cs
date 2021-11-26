@@ -38,6 +38,8 @@
             this.show_check_list = new System.Windows.Forms.CheckedListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.movie_check_list = new System.Windows.Forms.CheckedListBox();
+            this.sorting_label = new System.Windows.Forms.LinkLabel();
+            this.wtw_link = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // select_files
@@ -125,11 +127,35 @@
             this.movie_check_list.TabIndex = 12;
             this.movie_check_list.SelectedIndexChanged += new System.EventHandler(this.movie_check_list_SelectedIndexChanged);
             // 
+            // sorting_label
+            // 
+            this.sorting_label.AutoSize = true;
+            this.sorting_label.Location = new System.Drawing.Point(505, 427);
+            this.sorting_label.Name = "sorting_label";
+            this.sorting_label.Size = new System.Drawing.Size(105, 20);
+            this.sorting_label.TabIndex = 16;
+            this.sorting_label.TabStop = true;
+            this.sorting_label.Text = "Movie Sorting";
+            this.sorting_label.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.sorting_label_LinkClicked);
+            // 
+            // wtw_link
+            // 
+            this.wtw_link.AutoSize = true;
+            this.wtw_link.Location = new System.Drawing.Point(495, 450);
+            this.wtw_link.Name = "wtw_link";
+            this.wtw_link.Size = new System.Drawing.Size(115, 20);
+            this.wtw_link.TabIndex = 17;
+            this.wtw_link.TabStop = true;
+            this.wtw_link.Text = "What to Watch";
+            this.wtw_link.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.wtw_link_LinkClicked);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(626, 613);
+            this.Controls.Add(this.wtw_link);
+            this.Controls.Add(this.sorting_label);
             this.Controls.Add(this.run_button);
             this.Controls.Add(this.transfer_label);
             this.Controls.Add(this.output_rtextbox);
@@ -156,6 +182,8 @@
         private System.Windows.Forms.CheckedListBox show_check_list;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckedListBox movie_check_list;
+        private System.Windows.Forms.LinkLabel sorting_label;
+        private System.Windows.Forms.LinkLabel wtw_link;
     }
 }
 

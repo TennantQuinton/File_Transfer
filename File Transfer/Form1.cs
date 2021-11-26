@@ -157,5 +157,17 @@ namespace File_Transfer
         {
 
         }
+
+        private void sorting_label_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string path = @"E:\Media\Programs\Movie_Sorting\Movie Sorting\bin\Debug\Movie Sorting.exe";
+            System.Diagnostics.Process.Start(path);
+        }
+
+        private void wtw_link_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string path = @"E:\Media\Programs\What_to_Watch\What to Watch\bin\Debug\What to Watch.exe";
+            System.Diagnostics.Process.Start(path);
+        }
     }
 }
