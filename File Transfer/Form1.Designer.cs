@@ -40,6 +40,8 @@
             this.movie_check_list = new System.Windows.Forms.CheckedListBox();
             this.sorting_label = new System.Windows.Forms.LinkLabel();
             this.wtw_link = new System.Windows.Forms.LinkLabel();
+            this.freeSpaceLabel = new System.Windows.Forms.Label();
+            this.fileSizeLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // select_files
@@ -149,11 +151,34 @@
             this.wtw_link.Text = "What to Watch";
             this.wtw_link.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.wtw_link_LinkClicked);
             // 
+            // freeSpaceLabel
+            // 
+            this.freeSpaceLabel.AutoSize = true;
+            this.freeSpaceLabel.Location = new System.Drawing.Point(160, 427);
+            this.freeSpaceLabel.Name = "freeSpaceLabel";
+            this.freeSpaceLabel.Size = new System.Drawing.Size(96, 20);
+            this.freeSpaceLabel.TabIndex = 18;
+            this.freeSpaceLabel.Text = "Free Space:";
+            this.freeSpaceLabel.Visible = false;
+            this.freeSpaceLabel.Click += new System.EventHandler(this.freeSpaceLabel_Click);
+            // 
+            // fileSizeLabel
+            // 
+            this.fileSizeLabel.AutoSize = true;
+            this.fileSizeLabel.Location = new System.Drawing.Point(160, 450);
+            this.fileSizeLabel.Name = "fileSizeLabel";
+            this.fileSizeLabel.Size = new System.Drawing.Size(73, 20);
+            this.fileSizeLabel.TabIndex = 19;
+            this.fileSizeLabel.Text = "File Size:";
+            this.fileSizeLabel.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(626, 613);
+            this.Controls.Add(this.fileSizeLabel);
+            this.Controls.Add(this.freeSpaceLabel);
             this.Controls.Add(this.wtw_link);
             this.Controls.Add(this.sorting_label);
             this.Controls.Add(this.run_button);
@@ -184,6 +209,8 @@
         private System.Windows.Forms.CheckedListBox movie_check_list;
         private System.Windows.Forms.LinkLabel sorting_label;
         private System.Windows.Forms.LinkLabel wtw_link;
+        private System.Windows.Forms.Label freeSpaceLabel;
+        private System.Windows.Forms.Label fileSizeLabel;
     }
 }
 
