@@ -41,7 +41,8 @@
             this.sorting_label = new System.Windows.Forms.LinkLabel();
             this.wtw_link = new System.Windows.Forms.LinkLabel();
             this.freeSpaceLabel = new System.Windows.Forms.Label();
-            this.fileSizeLabel = new System.Windows.Forms.Label();
+            this.shows_size_label = new System.Windows.Forms.Label();
+            this.movies_size_label = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // select_files
@@ -75,7 +76,7 @@
             // transfer_label
             // 
             this.transfer_label.AutoSize = true;
-            this.transfer_label.Location = new System.Drawing.Point(160, 545);
+            this.transfer_label.Location = new System.Drawing.Point(160, 565);
             this.transfer_label.Name = "transfer_label";
             this.transfer_label.Size = new System.Drawing.Size(94, 20);
             this.transfer_label.TabIndex = 9;
@@ -84,9 +85,9 @@
             // 
             // run_button
             // 
-            this.run_button.Location = new System.Drawing.Point(12, 540);
+            this.run_button.Location = new System.Drawing.Point(12, 560);
             this.run_button.Name = "run_button";
-            this.run_button.Size = new System.Drawing.Size(142, 30);
+            this.run_button.Size = new System.Drawing.Size(142, 41);
             this.run_button.TabIndex = 11;
             this.run_button.Text = "Transfer Files";
             this.run_button.UseVisualStyleBackColor = true;
@@ -155,7 +156,7 @@
             // freeSpaceLabel
             // 
             this.freeSpaceLabel.AutoSize = true;
-            this.freeSpaceLabel.Location = new System.Drawing.Point(160, 427);
+            this.freeSpaceLabel.Location = new System.Drawing.Point(12, 537);
             this.freeSpaceLabel.Name = "freeSpaceLabel";
             this.freeSpaceLabel.Size = new System.Drawing.Size(96, 20);
             this.freeSpaceLabel.TabIndex = 18;
@@ -163,22 +164,32 @@
             this.freeSpaceLabel.Visible = false;
             this.freeSpaceLabel.Click += new System.EventHandler(this.freeSpaceLabel_Click);
             // 
-            // fileSizeLabel
+            // shows_size_label
             // 
-            this.fileSizeLabel.AutoSize = true;
-            this.fileSizeLabel.Location = new System.Drawing.Point(160, 450);
-            this.fileSizeLabel.Name = "fileSizeLabel";
-            this.fileSizeLabel.Size = new System.Drawing.Size(73, 20);
-            this.fileSizeLabel.TabIndex = 19;
-            this.fileSizeLabel.Text = "File Size:";
-            this.fileSizeLabel.Visible = false;
+            this.shows_size_label.AutoSize = true;
+            this.shows_size_label.Location = new System.Drawing.Point(160, 450);
+            this.shows_size_label.Name = "shows_size_label";
+            this.shows_size_label.Size = new System.Drawing.Size(96, 20);
+            this.shows_size_label.TabIndex = 20;
+            this.shows_size_label.Text = "Shows Size:";
+            this.shows_size_label.Visible = false;
+            // 
+            // movies_size_label
+            // 
+            this.movies_size_label.AutoSize = true;
+            this.movies_size_label.Location = new System.Drawing.Point(160, 427);
+            this.movies_size_label.Name = "movies_size_label";
+            this.movies_size_label.Size = new System.Drawing.Size(97, 20);
+            this.movies_size_label.TabIndex = 21;
+            this.movies_size_label.Text = "Movies Size:";
+            this.movies_size_label.Visible = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(626, 613);
-            this.Controls.Add(this.fileSizeLabel);
+            this.Controls.Add(this.shows_size_label);
             this.Controls.Add(this.freeSpaceLabel);
             this.Controls.Add(this.wtw_link);
             this.Controls.Add(this.sorting_label);
@@ -190,6 +201,9 @@
             this.Controls.Add(this.show_check_list);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.movie_check_list);
+            this.Controls.Add(this.movies_size_label);
+            this.MaximumSize = new System.Drawing.Size(648, 669);
+            this.MinimumSize = new System.Drawing.Size(648, 669);
             this.Name = "Form1";
             this.Text = "File Transfer";
             this.ResumeLayout(false);
@@ -211,7 +225,8 @@
         private System.Windows.Forms.LinkLabel sorting_label;
         private System.Windows.Forms.LinkLabel wtw_link;
         private System.Windows.Forms.Label freeSpaceLabel;
-        private System.Windows.Forms.Label fileSizeLabel;
+        private System.Windows.Forms.Label shows_size_label;
+        private System.Windows.Forms.Label movies_size_label;
     }
 }
 

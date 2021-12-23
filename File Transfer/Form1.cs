@@ -156,64 +156,85 @@ namespace File_Transfer
             string path = "";
             string output_path = output_rtextbox.Text;
 
-            // Make the transfer label visible and empty
-            transfer_label.Visible = true;
-            transfer_label.Text = "";
-
-            // Loop through the checked movies
-            foreach (string item_checked in movie_check_list.CheckedItems)
+            if (output_path.Length > 3)
             {
-                // Get the path of the checked item from the dictionary
-                path = (movie_file_dict[item_checked]);
+                // Make the transfer label visible and empty
+                transfer_label.Visible = true;
+                transfer_label.Text = "";
 
-                // Get the checked item name
-                item = (item_checked);
+                List<string> movie_checks = movie_check_list.CheckedItems.OfType<string>().ToList();
+                List<string> show_checks = show_check_list.CheckedItems.OfType<string>().ToList();
 
-                // Update the transfer label
-                transfer_label.Text = ($"Transferring {item}");
+                File.WriteAllLines(output_path + "/Movie_List.txt", movie_checks);
+                File.WriteAllLines(output_path + "/Shows_List.txt", show_checks);
 
-                // Get the attributes of the path
-                System.IO.FileAttributes attr = System.IO.File.GetAttributes(path);
-
-                // Output item path
-                string out_path = $@"{output_path}\{item}";
-
-                // Check that the output path doesn't exist
-                if (!System.IO.File.Exists(out_path))
+                // Loop through the checked movies
+                foreach (string item_checked in movie_check_list.CheckedItems)
                 {
-                    // Check if the path is a directory or file and use correct copy function
-                    if (attr.HasFlag(System.IO.FileAttributes.Directory))
-                        FileSystem.CopyDirectory(path, $@"{output_path}\{item}", UIOption.AllDialogs);
-                    else
-                        FileSystem.CopyFile(path, $@"{output_path}\{item}", UIOption.AllDialogs);
-                }
-            }
+                    // Get the path of the checked item from the dictionary
+                    path = (movie_file_dict[item_checked]);
 
-            // Loop through the checked tv shows
-            foreach (string item_checked in show_check_list.CheckedItems)
+                    // Get the checked item name
+                    item = (item_checked);
+
+                    // Update the transfer label
+                    transfer_label.Text = ($"Transferring {item}");
+
+                    // Get the attributes of the path
+                    System.IO.FileAttributes attr = System.IO.File.GetAttributes(path);
+
+                    // Output item path
+                    string out_path = $@"{output_path}\{item}";
+
+                    // Check that the output path doesn't exist
+                    if (!System.IO.File.Exists(out_path))
+                    {
+                        // Check if the path is a directory or file and use correct copy function
+                        if (attr.HasFlag(System.IO.FileAttributes.Directory))
+                            FileSystem.CopyDirectory(path, $@"{output_path}\{item}", UIOption.AllDialogs);
+                        else
+                            FileSystem.CopyFile(path, $@"{output_path}\{item}", UIOption.AllDialogs);
+
+                        string[] movie_txt = File.ReadAllLines(output_path + "/Movie_List.txt");
+                        movie_txt[Array.IndexOf(movie_txt, item)] = "";
+                        File.WriteAllLines(output_path + "/Movie_List.txt", movie_txt);
+                    }
+                }
+
+                // Loop through the checked tv shows
+                foreach (string item_checked in show_check_list.CheckedItems)
+                {
+                    // Get the path of the checked item from the dictionary
+                    path = (show_file_dict[item_checked]);
+                    string out_path = output_path + @"\" + item;
+
+                    // Get the checked item name
+                    item = (item_checked);
+                    transfer_label.Text = ($"Transferring {item}");
+
+                    // Get the attributes of the path
+                    System.IO.FileAttributes attr = System.IO.File.GetAttributes(path);
+
+                    // Check that the out file doesn't exist
+                    if (!System.IO.File.Exists($@"{output_path}\{item}"))
+                    {
+                        // Check if the path is a directory or file and use correct copy function
+                        if (attr.HasFlag(System.IO.FileAttributes.Directory))
+                            FileSystem.CopyDirectory(path, $@"{output_path}\{item}", UIOption.AllDialogs);
+                        else
+                            FileSystem.CopyFile(path, $@"{output_path}\{item}", UIOption.AllDialogs);
+
+                        string[] show_txt = File.ReadAllLines(output_path + "/Show_List.txt");
+                        show_txt[Array.IndexOf(show_txt, item)] = "";
+                        File.WriteAllLines(output_path + "/Movie_List.txt", show_txt);
+                    }
+                }
+                transfer_label.Text = "Transferred All Files!";
+            }
+            else
             {
-                // Get the path of the checked item from the dictionary
-                path = (show_file_dict[item_checked]);
-                string out_path = output_path + @"\" + item;
-
-                // Get the checked item name
-                item = (item_checked);
-                transfer_label.Text = ($"Transferring {item}");
-
-                // Get the attributes of the path
-                System.IO.FileAttributes attr = System.IO.File.GetAttributes(path);
-
-                // Check that the out file doesn't exist
-                if (!System.IO.File.Exists($@"{output_path}\{item}"))
-                {
-                    // Check if the path is a directory or file and use correct copy function
-                    if (attr.HasFlag(System.IO.FileAttributes.Directory))
-                        FileSystem.CopyDirectory(path, $@"{output_path}\{item}", UIOption.AllDialogs);
-                    else
-                        FileSystem.CopyFile(path, $@"{output_path}\{item}", UIOption.AllDialogs);
-                }
+                MessageBox.Show("No output location selected");
             }
-            transfer_label.Text = "Transferred All Files!";
         }
 
         private void movie_check_list_SelectedIndexChanged(object sender, EventArgs e)
@@ -248,14 +269,21 @@ namespace File_Transfer
                     string[] files_in_dir = Directory.GetFiles(path, "*.*");
                     string[] dirs_in_dir = Directory.GetDirectories(path);
 
-                    string subfile_path = string.Join(",", dirs_in_dir);
-                    string[] files_in_subdir = Directory.GetFiles(subfile_path, "*.*");
-
                     double subfolder_files_size = 0;
-                    foreach (string name in files_in_subdir)
+
+                    if (dirs_in_dir.Length > 0)
                     {
-                        FileInfo info = new FileInfo(name);
-                        subfolder_files_size += info.Length;
+
+                        string subfile_path = string.Join(",", dirs_in_dir);
+                        foreach (string dir in dirs_in_dir)
+                        {
+                            string[] files_in_subdir = Directory.GetFiles(dir, "*.*");
+                            foreach (string name in files_in_subdir)
+                            {
+                                FileInfo info = new FileInfo(name);
+                                subfolder_files_size += info.Length;
+                            }
+                        }
                     }
 
                     double folder_files_size = 0;
@@ -276,8 +304,8 @@ namespace File_Transfer
                 totalSize = totalSize + fileSize;
             }
 
-            fileSizeLabel.Visible = true;
-            fileSizeLabel.Text = "Files Size: " + totalSize.ToString() + " GB";
+            movies_size_label.Visible = true;
+            movies_size_label.Text = "Movies Size: " + totalSize.ToString() + " GB";
         }
 
         private void sorting_label_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -334,16 +362,15 @@ namespace File_Transfer
                 if (dirs_in_dir.Length > 0)
                 {
                     string subfile_path = string.Join(",", dirs_in_dir);
-                    if (subfile_path.Length > 200)
+                    foreach (string dir in dirs_in_dir)
                     {
-                        MessageBox.Show($"{subfile_path.Length}");
-                    }
-                    string[] files_in_subdir = Directory.GetFiles(subfile_path, "*.*");
+                        string[] files_in_subdir = Directory.GetFiles(dir, "*.*");
 
-                    foreach (string name in files_in_subdir)
-                    {
-                        FileInfo info = new FileInfo(name);
-                        subfolder_files_size += info.Length;
+                        foreach (string name in files_in_subdir)
+                        {
+                            FileInfo info = new FileInfo(name);
+                            subfolder_files_size += info.Length;
+                        }
                     }
                 }
 
@@ -359,8 +386,13 @@ namespace File_Transfer
                 totalSize = totalSize + fileSize;
             }
 
-            fileSizeLabel.Visible = true;
-            fileSizeLabel.Text = "Files Size: " + totalSize.ToString() + " GB";
+            shows_size_label.Visible = true;
+            shows_size_label.Text = "Shows Size: " + totalSize.ToString() + " GB";
+        }
+
+        private void fileSizeLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
