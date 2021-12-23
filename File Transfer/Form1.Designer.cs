@@ -109,6 +109,7 @@
             this.show_check_list.Name = "show_check_list";
             this.show_check_list.Size = new System.Drawing.Size(287, 382);
             this.show_check_list.TabIndex = 14;
+            this.show_check_list.SelectedIndexChanged += new System.EventHandler(this.show_check_list_SelectedIndexChanged);
             // 
             // label1
             // 

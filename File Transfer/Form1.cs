@@ -218,15 +218,17 @@ namespace File_Transfer
 
         private void movie_check_list_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // We use these constants to convert bytes to gigabytes
-            const double BytesInGB = 1073741824;
             double totalSize = 0.0;
 
-            string joinedlist = string.Join(",", movie_check_list.SelectedItems);
-            MessageBox.Show($"{joinedlist}");
+            // We use these constants to convert bytes to gigabytes
+            const double BytesInGB = 1073741824;
 
-            foreach (var item in movie_check_list.SelectedItems)
+            List<string> itemList = new List<string>();
+
+            foreach (var item in movie_check_list.CheckedItems)
             {
+                string list = string.Join(",", movie_check_list.CheckedItems.OfType<string>().ToList());
+                // MessageBox.Show(item.ToString());
                 // Get the path of the checked item from the dictionary
                 string path = (movie_file_dict[item.ToString()]);
 
@@ -244,33 +246,38 @@ namespace File_Transfer
                     dir_path_info = new DirectoryInfo(path);
 
                     string[] files_in_dir = Directory.GetFiles(path, "*.*");
+                    string[] dirs_in_dir = Directory.GetDirectories(path);
 
-                    double b = 0;
+                    string subfile_path = string.Join(",", dirs_in_dir);
+                    string[] files_in_subdir = Directory.GetFiles(subfile_path, "*.*");
+
+                    double subfolder_files_size = 0;
+                    foreach (string name in files_in_subdir)
+                    {
+                        FileInfo info = new FileInfo(name);
+                        subfolder_files_size += info.Length;
+                    }
+
+                    double folder_files_size = 0;
                     foreach (string name in files_in_dir)
                     {
                         FileInfo info = new FileInfo(name);
-                        b += info.Length;
+                        folder_files_size += info.Length;
                     }
-                    fileSize = Math.Round(b / BytesInGB, 2);
+
+                    fileSize = Math.Round((folder_files_size + subfolder_files_size) / BytesInGB, 2);
                 }
                 else
                 {
                     file_path_info = new FileInfo(path);
                     fileSize = Math.Round(file_path_info.Length / BytesInGB, 2);
                 }
-
-                MessageBox.Show($"total: {totalSize}");
-                MessageBox.Show($"file: {fileSize}");
+                
                 totalSize = totalSize + fileSize;
-                MessageBox.Show($"{totalSize} GB");
             }
 
             fileSizeLabel.Visible = true;
             fileSizeLabel.Text = "Files Size: " + totalSize.ToString() + " GB";
-
-            // Change label to the free space of the output drive
-            //fileSizeLabel.Visible = true;
-            //fileSizeLabel.Text = "Files Size: " + fileSize.ToString() + " GB";
         }
 
         private void sorting_label_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -290,6 +297,70 @@ namespace File_Transfer
         private void freeSpaceLabel_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void show_check_list_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            double totalSize = 0.0;
+
+            // We use these constants to convert bytes to gigabytes
+            const double BytesInGB = 1073741824;
+
+            List<string> itemList = new List<string>();
+
+            foreach (var item in show_check_list.CheckedItems)
+            {
+                string list = string.Join(",", show_check_list.CheckedItems.OfType<string>().ToList());
+
+                // Get the path of the checked item from the dictionary
+                string path = (show_file_dict[item.ToString()]);
+
+                // Get the attributes of the path
+                System.IO.FileAttributes attr = System.IO.File.GetAttributes(path);
+
+                FileInfo file_path_info = new FileInfo(path);
+                DirectoryInfo dir_path_info = new DirectoryInfo(path);
+
+                double fileSize = 0.0;
+
+                // Don't need to check if file or directory. Just treat all as directories
+                dir_path_info = new DirectoryInfo(path);
+
+                string[] files_in_dir = Directory.GetFiles(path, "*.*");
+                string[] dirs_in_dir = Directory.GetDirectories(path);
+
+                double subfolder_files_size = 0;
+
+                if (dirs_in_dir.Length > 0)
+                {
+                    string subfile_path = string.Join(",", dirs_in_dir);
+                    if (subfile_path.Length > 200)
+                    {
+                        MessageBox.Show($"{subfile_path.Length}");
+                    }
+                    string[] files_in_subdir = Directory.GetFiles(subfile_path, "*.*");
+
+                    foreach (string name in files_in_subdir)
+                    {
+                        FileInfo info = new FileInfo(name);
+                        subfolder_files_size += info.Length;
+                    }
+                }
+
+                double folder_files_size = 0;
+                foreach (string name in files_in_dir)
+                {
+                    FileInfo info = new FileInfo(name);
+                    folder_files_size += info.Length;
+                }
+
+                fileSize = Math.Round((folder_files_size + subfolder_files_size) / BytesInGB, 2);
+
+                totalSize = totalSize + fileSize;
+            }
+
+            fileSizeLabel.Visible = true;
+            fileSizeLabel.Text = "Files Size: " + totalSize.ToString() + " GB";
         }
     }
 }
